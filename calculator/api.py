@@ -5,7 +5,7 @@ from typing import Optional
 
 from fastapi import FastAPI, Response, status as response_status
 
-from calculate import calculate
+from calculate import calc_with_exception
 from history_record import HistoryRecord
 from parse_string_with_exception import parse_string_with_exception
 from parsing_exception import ParsingException
@@ -30,7 +30,7 @@ def calc(request: str, response: Response):
         prepared_string = request.replace(" ", "")
         parsed = parse_string_with_exception(prepared_string)
 
-        result = calculate(parsed)
+        result = calc_with_exception(parsed)
 
         history_record = HistoryRecord(request, str(result), 'success')
         app.request_history.append(history_record)
@@ -60,7 +60,7 @@ def history(response: Response, status: Optional[str] = None, limit: Optional[in
         response.status_code = response_status.HTTP_400_BAD_REQUEST
         return {'response:': 'Limit should be between 1 and 30'}
 
-    if status and (status != 'success' or status != 'fail'):
+    if status is not None and (status != 'success' and status != 'fail'):
         response.status_code = response_status.HTTP_400_BAD_REQUEST
         return {'response:': 'Status must be either success or fail. You can skip this parameter.'}
 

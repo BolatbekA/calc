@@ -5,7 +5,7 @@ def parse_string_with_exception(x):
     try:
         return parse_string(x)
     except:
-        raise ParsingException('Error while parsing the string')
+        raise ParsingException('Error while parsing the string or calc')
 
 
 def parse_string(x):

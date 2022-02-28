@@ -1,3 +1,12 @@
+from parsing_exception import ParsingException
+
+
+def calc_with_exception(x):
+    try:
+        return calculate(x)
+    except:
+        raise ParsingException('Error while parsing the string or calc')
+
 def calculate(tokens):
     operators = {'+': op_plus,
                  '-': op_minus,
